@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>定投雷达 - DingTou Radar</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0d1117;--card:#161b22;--card2:#1c2128;--border:#30363d;
+  --text:#e6edf3;--text2:#8b949e;--text3:#6e7681;
+  --red:#f85149;--red-bg:rgba(248,81,73,.12);
+  --green:#3fb950;--green-bg:rgba(63,185,80,.12);
+  --blue:#58a6ff;--blue-bg:rgba(88,166,255,.12);
+  --yellow:#d29922;--yellow-bg:rgba(210,153,34,.12);
+  --orange:#db6d28;
+}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif;background:var(--bg);color:var(--text);overflow:hidden;font-size:14px}
+#app{display:flex;flex-direction:column;height:100%;max-width:480px;margin:0 auto}
+
+/* Header */
+.header{padding:12px 16px 8px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.header h1{font-size:17px;font-weight:600;display:flex;align-items:center;gap:6px}
+.header h1 .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.header .time{font-size:12px;color:var(--text3)}
+
+/* Signal Card - always visible */
+.signal-card{margin:0 16px 8px;padding:14px 16px;border-radius:12px;display:flex;align-items:center;gap:14px;flex-shrink:0;cursor:pointer;transition:transform .15s}
+.signal-card:active{transform:scale(.98)}
+.signal-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;flex-shrink:0}
+.signal-info{flex:1;min-width:0}
+.signal-label{font-size:16px;font-weight:600;margin-bottom:2px}
+.signal-score{font-size:12px;color:var(--text2)}
+.signal-amount{text-align:right;flex-shrink:0}
+.signal-amount .label{font-size:11px;color:var(--text3)}
+.signal-amount .value{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
+
+.signal-green{background:var(--green-bg);border:1px solid rgba(63,185,80,.25)}
+.signal-green .signal-icon{background:var(--green);color:#fff}
+.signal-green .value{color:var(--green)}
+.signal-blue{background:var(--blue-bg);border:1px solid rgba(88,166,255,.25)}
+.signal-blue .signal-icon{background:var(--blue);color:#fff}
+.signal-blue .value{color:var(--blue)}
+.signal-yellow{background:var(--yellow-bg);border:1px solid rgba(210,153,34,.25)}
+.signal-yellow .signal-icon{background:var(--yellow);color:#fff}
+.signal-yellow .value{color:var(--yellow)}
+.signal-red{background:var(--red-bg);border:1px solid rgba(248,81,73,.25)}
+.signal-red .signal-icon{background:var(--red);color:#fff}
+.signal-red .value{color:var(--red)}
+
+/* Main content area */
+.content{flex:1;overflow-y:auto;overflow-x:hidden;padding:0 16px 16px;-webkit-overflow-scrolling:touch}
+.content::-webkit-scrollbar{display:none}
+
+/* Tab bar */
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:12px;flex-shrink:0;padding:0 16px}
+.tab{flex:1;text-align:center;padding:10px 0;font-size:13px;color:var(--text3);cursor:pointer;position:relative;transition:color .2s}
+.tab.active{color:var(--blue);font-weight:600}
+.tab.active::after{content:'';position:absolute;bottom:-1px;left:25%;width:50%;height:2px;background:var(--blue);border-radius:1px}
+
+/* Time tabs (for heatmap) */
+.time-tabs{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;flex-shrink:0;padding:0 2px}
+.time-tabs::-webkit-scrollbar{display:none}
+.time-tab{padding:5px 12px;border-radius:16px;font-size:12px;color:var(--text2);background:var(--card);border:1px solid var(--border);white-space:nowrap;cursor:pointer;transition:all .2s}
+.time-tab.active{background:var(--blue-bg);color:var(--blue);border-color:rgba(88,166,255,.3)}
+
+/* Section title */
+.section-title{font-size:13px;color:var(--text2);margin:16px 0 8px;display:flex;align-items:center;gap:6px}
+.section-title::before{content:'';width:3px;height:12px;background:var(--blue);border-radius:2px}
+
+/* Heatmap grid */
+.heatmap{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:16px}
+.heat-cell{border-radius:8px;padding:10px 6px;text-align:center;cursor:pointer;transition:transform .12s;position:relative;overflow:hidden}
+.heat-cell:active{transform:scale(.95)}
+.heat-name{font-size:11px;font-weight:500;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.heat-pct{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+
+/* Heat colors */
+.heat-5{background:rgba(248,81,73,.55);color:#fff}
+.heat-4{background:rgba(248,81,73,.38);color:#fca5a1}
+.heat-3{background:rgba(248,81,73,.22);color:#fca5a1}
+.heat-2{background:rgba(248,81,73,.12);color:#f8a09a}
+.heat-1{background:rgba(139,148,158,.12);color:var(--text2)}
+.heat-0{background:rgba(139,148,158,.08);color:var(--text3)}
+.heat--1{background:rgba(63,185,80,.12);color:#7ee787}
+.heat--2{background:rgba(63,185,80,.22);color:#7ee787}
+.heat--3{background:rgba(63,185,80,.35);color:#56d364}
+.heat--4{background:rgba(63,185,80,.50);color:#3fb950}
+
+/* Sector advice cards */
+.advice-list{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.advice-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .15s}
+.advice-card:active{background:var(--card2)}
+.advice-name{flex:1;min-width:0}
+.advice-name .name{font-size:14px;font-weight:500}
+.advice-name .pe{font-size:11px;color:var(--text3);margin-top:2px}
+.advice-badge{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;white-space:nowrap}
+.badge-add{background:var(--green-bg);color:var(--green)}
+.badge-normal{background:var(--blue-bg);color:var(--blue)}
+.badge-wait{background:var(--yellow-bg);color:var(--yellow)}
+.badge-stop{background:var(--red-bg);color:var(--red)}
+.advice-change{font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;min-width:60px;text-align:right}
+.change-up{color:var(--red)}
+.change-down{color:var(--green)}
+
+/* Radar chart container */
+.chart-container{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:16px}
+.chart-box{width:100%;height:260px}
+
+/* Dimension detail cards */
+.dim-list{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.dim-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:12px}
+.dim-score{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+.dim-info{flex:1;min-width:0}
+.dim-info .name{font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px}
+.dim-info .name .weight{font-size:10px;color:var(--text3);background:var(--card2);padding:1px 5px;border-radius:3px}
+.dim-info .detail{font-size:11px;color:var(--text3);margin-top:2px;line-height:1.4}
+.dim-bar{width:60px;height:4px;background:var(--border);border-radius:2px;overflow:hidden;flex-shrink:0}
+.dim-bar-fill{height:100%;border-radius:2px;transition:width .5s}
+
+/* Portfolio */
+.portfolio-summary{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px}
+.port-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.port-row:last-child{margin-bottom:0}
+.port-label{font-size:12px;color:var(--text2)}
+.port-value{font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
+.port-value.positive{color:var(--red)}
+.port-value.negative{color:var(--green)}
+.port-divider{height:1px;background:var(--border);margin:10px 0}
+
+.plan-list{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.plan-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.plan-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.plan-name{font-size:13px;font-weight:500}
+.plan-tag{font-size:10px;padding:2px 6px;border-radius:4px;background:var(--blue-bg);color:var(--blue)}
+.plan-meta{display:flex;gap:16px;font-size:11px;color:var(--text3)}
+
+.add-plan-btn{width:100%;padding:12px;border-radius:10px;border:1px dashed var(--border);background:transparent;color:var(--text2);font-size:13px;cursor:pointer;transition:all .2s;margin-bottom:16px}
+.add-plan-btn:active{background:var(--card)}
+
+/* Settings */
+.setting-group{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:4px 0;margin-bottom:16px}
+.setting-item{padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)}
+.setting-item:last-child{border-bottom:none}
+.setting-label{font-size:13px}
+.setting-value{font-size:13px;color:var(--text2)}
+.setting-item input{background:var(--card2);border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--text);font-size:13px;width:100px;text-align:right}
+
+/* Bottom sheet / modal */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;display:none;align-items:flex-end;justify-content:center}
+.overlay.show{display:flex}
+.sheet{background:var(--card);border-radius:16px 16px 0 0;width:100%;max-width:480px;max-height:70vh;overflow-y:auto;padding:20px 16px;animation:slideUp .25s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.sheet-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px}
+.sheet-title{font-size:16px;font-weight:600;margin-bottom:12px}
+.sheet-close{position:absolute;top:16px;right:16px;width:28px;height:28px;border-radius:50%;background:var(--card2);border:none;color:var(--text2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+/* Loading */
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 0;color:var(--text3)}
+.loading-spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Bottom nav */
+.bottom-nav{display:flex;border-top:1px solid var(--border);background:var(--card);flex-shrink:0;padding-bottom:env(safe-area-inset-bottom,0)}
+.nav-item{flex:1;text-align:center;padding:8px 0 6px;cursor:pointer;transition:color .2s;color:var(--text3)}
+.nav-item.active{color:var(--blue)}
+.nav-icon{font-size:20px;margin-bottom:2px}
+.nav-label{font-size:10px}
+
+/* Page visibility */
+.page{display:none}
+.page.active{display:block}
+
+/* Disclaimer */
+.disclaimer{font-size:10px;color:var(--text3);text-align:center;padding:12px 16px;line-height:1.5}
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- Header -->
+  <div class="header">
+    <h1><span class="dot" id="headerDot"></span>定投雷达</h1>
+    <span class="time" id="updateTime">--</span>
+  </div>
+
+  <!-- Signal Card (always visible) -->
+  <div class="signal-card signal-blue" id="signalCard" onclick="switchNav(1)">
+    <div class="signal-icon" id="signalIcon">--</div>
+    <div class="signal-info">
+      <div class="signal-label" id="signalLabel">加载中...</div>
+      <div class="signal-score" id="signalScore">综合评分计算中</div>
+    </div>
+    <div class="signal-amount">
+      <div class="label">建议本月投入</div>
+      <div class="value" id="signalAmount">--</div>
+    </div>
+  </div>
+
+  <!-- Tab bar -->
+  <div class="tabs" id="topTabs">
+    <div class="tab active" data-page="0" onclick="switchNav(0)">板块轮动</div>
+    <div class="tab" data-page="1" onclick="switchNav(1)">定投决策</div>
+    <div class="tab" data-page="2" onclick="switchNav(2)">我的组合</div>
+    <div class="tab" data-page="3" onclick="switchNav(3)">设置</div>
+  </div>
+
+  <!-- Main content -->
+  <div class="content" id="mainContent">
+
+    <!-- Page 0: 板块轮动 -->
+    <div class="page active" id="page0">
+      <div class="time-tabs" id="timeTabs">
+        <div class="time-tab active" data-field="change_pct" onclick="switchTime(this)">今日</div>
+        <div class="time-tab" data-field="change_5day" onclick="switchTime(this)">近5日</div>
+        <div class="time-tab" data-field="change_month" onclick="switchTime(this)">本月</div>
+        <div class="time-tab" data-field="change_3month" onclick="switchTime(this)">近3月</div>
+        <div class="time-tab" data-field="change_ytd" onclick="switchTime(this)">今年以来</div>
+        <div class="time-tab" data-field="change_1year" onclick="switchTime(this)">近1年</div>
+      </div>
+      <div class="heatmap" id="heatmap"></div>
+      <div class="section-title">行业估值一览</div>
+      <div class="advice-list" id="valuationList"></div>
+    </div>
+
+    <!-- Page 1: 定投决策 -->
+    <div class="page" id="page1">
+      <div class="chart-container">
+        <div class="chart-box" id="radarChart"></div>
+      </div>
+      <div class="section-title">各维度评分明细</div>
+      <div class="dim-list" id="dimList"></div>
+      <div class="section-title">关注板块建议</div>
+      <div class="advice-list" id="adviceList"></div>
+    </div>
+
+    <!-- Page 2: 我的组合 -->
+    <div class="page" id="page2">
+      <div class="portfolio-summary" id="portfolioSummary">
+        <div class="port-row">
+          <span class="port-label">累计投入</span>
+          <span class="port-value" id="totalInvested">¥0</span>
+        </div>
+        <div class="port-row">
+          <span class="port-label">当前市值</span>
+          <span class="port-value" id="totalValue">¥0</span>
+        </div>
+        <div class="port-divider"></div>
+        <div class="port-row">
+          <span class="port-label">总收益率</span>
+          <span class="port-value positive" id="totalReturn">+0.00%</span>
+        </div>
+        <div class="port-row">
+          <span class="port-label">定投期数</span>
+          <span class="port-value" id="totalPeriods">0 个月</span>
+        </div>
+        <div class="port-divider"></div>
+        <div class="port-row">
+          <span class="port-label">本月建议总额</span>
+          <span class="port-value" id="monthSuggest" style="color:var(--blue)">--</span>
+        </div>
+      </div>
+      <div class="section-title">定投计划</div>
+      <div class="plan-list" id="planList"></div>
+      <button class="add-plan-btn" onclick="addPlan()">+ 添加定投计划</button>
+      <div class="disclaimer">本工具仅供参考，不构成投资建议。投资有风险，入市需谨慎。</div>
+    </div>
+
+    <!-- Page 3: 设置 -->
+    <div class="page" id="page3">
+      <div class="section-title">基础设置</div>
+      <div class="setting-group">
+        <div class="setting-item">
+          <span class="setting-label">基准月投金额</span>
+          <input type="number" id="baseAmount" value="5000" onchange="saveSettings()" placeholder="元">
+        </div>
+        <div class="setting-item">
+          <span class="setting-label">定投日（每月）</span>
+          <input type="number" id="investDay" value="15" onchange="saveSettings()" min="1" max="28">
+        </div>
+      </div>
+      <div class="section-title">数据源信息</div>
+      <div class="setting-group">
+        <div class="setting-item">
+          <span class="setting-label">行情数据</span>
+          <span class="setting-value" style="color:var(--green)">东方财富 API</span>
+        </div>
+        <div class="setting-item">
+          <span class="setting-label">估值数据</span>
+          <span class="setting-value" style="color:var(--green)">AKShare</span>
+        </div>
+        <div class="setting-item">
+          <span class="setting-label">最后更新</span>
+          <span class="setting-value" id="lastUpdate">--</span>
+        </div>
+      </div>
+      <div class="section-title">关于</div>
+      <div class="setting-group">
+        <div class="setting-item">
+          <span class="setting-label">版本</span>
+          <span class="setting-value">1.0.0</span>
+        </div>
+        <div class="setting-item">
+          <span class="setting-label">数据更新</span>
+          <span class="setting-value" style="cursor:pointer;color:var(--blue)" onclick="loadData()">手动刷新</span>
+        </div>
+      </div>
+      <div class="disclaimer">定投雷达 v1.0.0 | 数据每日收盘后自动更新<br>本报告不构成任何投资建议</div>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom Sheet for sector detail -->
+<div class="overlay" id="sectorSheet" onclick="closeSheet(event)">
+  <div class="sheet" onclick="event.stopPropagation()">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" id="sheetTitle">--</div>
+    <div id="sheetContent"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// State
+// ============================================================
+let DATA = null;
+let FUND_DATA = null;
+let CURRENT_TIME_FIELD = 'change_pct';
+let PLANS = [];
+let SETTINGS = { baseAmount: 5000, investDay: 15 };
+
+// Load settings from memory
+try {
+  const saved = localStorage.getItem('dtr_settings');
+  if (saved) SETTINGS = JSON.parse(saved);
+  const plans = localStorage.getItem('dtr_plans');
+  if (plans) PLANS = JSON.parse(plans);
+} catch(e) {}
+
+// ============================================================
+// Data Loading
+// ============================================================
+async function loadData() {
+  // Try real data first, then use demo
+  const sources = [
+    '../data/market_data_latest.json',
+    './data/market_data_latest.json',
+    'data/market_data_latest.json',
+  ];
+  for (const src of sources) {
+    try {
+      const resp = await fetch(src);
+      if (resp.ok) {
+        DATA = await resp.json();
+        console.log('Loaded real data:', src);
+        // Try loading fund recommendations from same directory
+        const fundSrc = src.replace('market_data_latest.json', 'fund_recommendations.json');
+        try {
+          const fundResp = await fetch(fundSrc);
+          if (fundResp.ok) {
+            FUND_DATA = await fundResp.json();
+            console.log('Loaded fund data:', fundSrc);
+          }
+        } catch(e) { console.log('Fund data not available'); }
+        render();
+        return;
+      }
+    } catch(e) {}
+  }
+  // Fallback demo data
+  DATA = generateDemoData();
+  FUND_DATA = generateDemoFunds();
+  console.log('Using demo data');
+  render();
+}
+
+function generateDemoData() {
+  const sectors = [
+    {name:'黄金',change_pct:8.34,change_5day:3.2,change_month:10.0,change_3month:13.4,change_ytd:42.1,change_1year:8.4,turnover:13810000000},
+    {name:'贵金属',change_pct:7.19,change_5day:2.8,change_month:13.0,change_3month:12.9,change_ytd:38.7,change_1year:8.3,turnover:18690000000},
+    {name:'机器人',change_pct:6.91,change_5day:5.1,change_month:21.0,change_3month:16.6,change_ytd:42.2,change_1year:16.9,turnover:21300000000},
+    {name:'电子',change_pct:4.52,change_5day:3.8,change_month:12.5,change_3month:18.2,change_ytd:86.3,change_1year:74.0,turnover:35200000000},
+    {name:'通信',change_pct:3.87,change_5day:2.5,change_month:8.3,change_3month:14.7,change_ytd:73.6,change_1year:84.8,turnover:22100000000},
+    {name:'计算机',change_pct:3.21,change_5day:1.9,change_month:6.7,change_3month:11.3,change_ytd:25.8,change_1year:18.2,turnover:28900000000},
+    {name:'传媒',change_pct:2.76,change_5day:1.2,change_month:4.5,change_3month:8.9,change_ytd:15.3,change_1year:35.0,turnover:12300000000},
+    {name:'汽车',change_pct:2.45,change_5day:0.8,change_month:3.2,change_3month:7.5,change_ytd:12.1,change_1year:8.7,turnover:18700000000},
+    {name:'电力设备',change_pct:2.18,change_5day:1.5,change_month:5.1,change_3month:9.8,change_ytd:18.5,change_1year:12.3,turnover:24600000000},
+    {name:'医药生物',change_pct:1.85,change_5day:0.6,change_month:2.1,change_3month:4.3,change_ytd:-2.8,change_1year:-5.2,turnover:16800000000},
+    {name:'食品饮料',change_pct:1.42,change_5day:0.3,change_month:1.8,change_3month:3.2,change_ytd:-1.5,change_1year:-8.3,turnover:9500000000},
+    {name:'银行',change_pct:1.15,change_5day:0.9,change_month:3.5,change_3month:6.1,change_ytd:18.2,change_1year:34.4,turnover:8200000000},
+    {name:'有色金属',change_pct:0.87,change_5day:1.2,change_month:4.8,change_3month:11.2,change_ytd:70.5,change_1year:94.7,turnover:19800000000},
+    {name:'非银金融',change_pct:0.65,change_5day:0.4,change_month:2.3,change_3month:5.1,change_ytd:8.7,change_1year:12.5,turnover:14200000000},
+    {name:'家用电器',change_pct:0.48,change_5day:-0.3,change_month:1.2,change_3month:3.8,change_ytd:5.3,change_1year:15.2,turnover:6800000000},
+    {name:'建筑材料',change_pct:0.32,change_5day:-0.5,change_month:-0.8,change_3month:1.2,change_ytd:-5.3,change_1year:-12.8,turnover:3200000000},
+    {name:'钢铁',change_pct:0.18,change_5day:-0.8,change_month:-1.5,change_3month:-2.1,change_ytd:-8.7,change_1year:-15.3,turnover:4500000000},
+    {name:'交通运输',change_pct:0.05,change_5day:-0.2,change_month:0.5,change_3month:2.3,change_ytd:3.1,change_1year:5.8,turnover:5600000000},
+    {name:'公用事业',change_pct:-0.12,change_5day:-0.6,change_month:-1.2,change_3month:0.8,change_ytd:6.5,change_1year:18.3,turnover:7800000000},
+    {name:'国防军工',change_pct:-0.35,change_5day:-1.2,change_month:-3.5,change_3month:-5.2,change_ytd:-8.1,change_1year:-2.5,turnover:9200000000},
+    {name:'基础化工',change_pct:-0.58,change_5day:-1.5,change_month:-4.2,change_3month:-6.8,change_ytd:-12.3,change_1year:-18.5,turnover:11200000000},
+    {name:'机械设备',change_pct:-0.72,change_5day:-0.9,change_month:-2.8,change_3month:-3.5,change_ytd:2.1,change_1year:8.5,turnover:13500000000},
+    {name:'纺织服饰',change_pct:-0.95,change_5day:-1.8,change_month:-5.1,change_3month:-8.2,change_ytd:-15.8,change_1year:-22.3,turnover:2800000000},
+    {name:'房地产',change_pct:-1.18,change_5day:-2.3,change_month:-6.5,change_3month:-10.5,change_ytd:-22.8,change_1year:-35.2,turnover:5200000000},
+    {name:'农林牧渔',change_pct:-1.45,change_5day:-2.8,change_month:-8.2,change_3month:-12.3,change_ytd:-18.5,change_1year:-25.3,turnover:4800000000},
+    {name:'煤炭',change_pct:-1.72,change_5day:-2.1,change_month:-5.8,change_3month:-9.5,change_ytd:-10.2,change_1year:10.9,turnover:6500000000},
+    {name:'石油石化',change_pct:-1.95,change_5day:-2.5,change_month:-7.3,change_3month:-11.8,change_ytd:-8.5,change_1year:-5.2,turnover:8900000000},
+    {name:'美容护理',change_pct:-2.35,change_5day:-3.8,change_month:-10.5,change_3month:-18.2,change_ytd:-24.9,change_1year:-35.8,turnover:1800000000},
+    {name:'商贸零售',change_pct:-2.85,change_5day:-4.2,change_month:-12.8,change_3month:-20.5,change_ytd:-29.4,change_1year:-38.5,turnover:3200000000},
+    {name:'社会服务',change_pct:-3.12,change_5day:-3.5,change_month:-9.8,change_3month:-15.3,change_ytd:-18.2,change_1year:-12.5,turnover:2500000000},
+    {name:'环保',change_pct:-0.25,change_5day:-1.1,change_month:-3.2,change_3month:-5.8,change_ytd:-10.5,change_1year:-8.2,turnover:2100000000},
+  ];
+
+  const swVal = [
+    {name:'农林牧渔',pe_ttm:27.11,pb:2.00,dividend_yield:2.42},
+    {name:'基础化工',pe_ttm:28.61,pb:2.62,dividend_yield:1.39},
+    {name:'钢铁',pe_ttm:16.31,pb:0.90,dividend_yield:2.48},
+    {name:'有色金属',pe_ttm:21.07,pb:3.49,dividend_yield:1.33},
+    {name:'电子',pe_ttm:84.58,pb:8.87,dividend_yield:0.37},
+    {name:'家用电器',pe_ttm:16.82,pb:3.25,dividend_yield:2.85},
+    {name:'食品饮料',pe_ttm:22.76,pb:4.13,dividend_yield:2.52},
+    {name:'医药生物',pe_ttm:30.55,pb:2.58,dividend_yield:1.29},
+    {name:'公用事业',pe_ttm:18.32,pb:1.85,dividend_yield:2.95},
+    {name:'交通运输',pe_ttm:15.28,pb:1.42,dividend_yield:3.15},
+    {name:'房地产',pe_ttm:0,pb:0.72,dividend_yield:1.85},
+    {name:'商贸零售',pe_ttm:25.85,pb:1.68,dividend_yield:2.12},
+    {name:'建筑材料',pe_ttm:22.15,pb:1.25,dividend_yield:3.28},
+    {name:'建筑装饰',pe_ttm:10.58,pb:0.92,dividend_yield:3.45},
+    {name:'电力设备',pe_ttm:28.92,pb:3.12,dividend_yield:1.05},
+    {name:'国防军工',pe_ttm:65.28,pb:3.85,dividend_yield:0.52},
+    {name:'计算机',pe_ttm:72.35,pb:5.28,dividend_yield:0.48},
+    {name:'传媒',pe_ttm:38.52,pb:2.95,dividend_yield:1.15},
+    {name:'通信',pe_ttm:35.18,pb:2.82,dividend_yield:1.38},
+    {name:'银行',pe_ttm:5.78,pb:0.57,dividend_yield:4.88},
+    {name:'非银金融',pe_ttm:18.52,pb:1.35,dividend_yield:2.58},
+    {name:'汽车',pe_ttm:22.35,pb:2.45,dividend_yield:1.52},
+    {name:'机械设备',pe_ttm:32.18,pb:2.78,dividend_yield:1.18},
+    {name:'煤炭',pe_ttm:11.25,pb:1.65,dividend_yield:5.52},
+    {name:'石油石化',pe_ttm:12.85,pb:1.32,dividend_yield:4.15},
+    {name:'环保',pe_ttm:25.52,pb:1.52,dividend_yield:1.85},
+    {name:'美容护理',pe_ttm:42.18,pb:4.52,dividend_yield:0.72},
+    {name:'社会服务',pe_ttm:55.32,pb:3.85,dividend_yield:0.65},
+    {name:'纺织服饰',pe_ttm:28.85,pb:1.92,dividend_yield:2.35},
+    {name:'轻工制造',pe_ttm:35.28,pb:2.35,dividend_yield:1.58},
+    {name:'综合',pe_ttm:48.52,pb:2.15,dividend_yield:0.92},
+  ];
+
+  return {
+    meta: {date: new Date().toISOString().slice(0,10), generated_at: new Date().toISOString()},
+    signal: {
+      level:'normal', label:'正常定投', color:'blue', score:58.8, coefficient:1.0,
+      dimensions: {
+        valuation:{score:50,weight:0.30,detail:'沪深300 PE=13.76, 处于近10年56%分位'},
+        fundamentals:{score:75,weight:0.20,detail:'PMI=50.3扩张, CPI=1.2%温和'},
+        trend:{score:70,weight:0.15,detail:'沪深300在250日均线(4569)上方'},
+        sentiment:{score:55,weight:0.15,detail:'北向资金平稳, 两融余额约15150亿'},
+        balance:{score:50,weight:0.20,detail:'行业分化较大，结构性风险偏高'},
+      }
+    },
+    sectors_realtime: sectors,
+    sw_valuation: swVal,
+    index_valuation: {
+      '沪深300':{pe:13.76,pe_percentile:56.3,pb:1.42,pb_percentile:28.3},
+    },
+    sector_advice: [
+      {name:'沪深300',pe_ttm:13.76,pb:1.42,rating:'fair',recommendation:'正常定投'},
+      {name:'电子',pe_ttm:84.58,pb:8.87,rating:'overvalued',recommendation:'谨慎观望'},
+      {name:'医药生物',pe_ttm:30.55,pb:2.58,rating:'fair',recommendation:'正常定投'},
+      {name:'电力设备',pe_ttm:28.92,pb:3.12,rating:'fair',recommendation:'正常定投'},
+      {name:'食品饮料',pe_ttm:22.76,pb:4.13,rating:'fair',recommendation:'正常定投'},
+      {name:'银行',pe_ttm:5.78,pb:0.57,rating:'undervalued',recommendation:'建议加码'},
+      {name:'通信',pe_ttm:35.18,pb:2.82,rating:'slightly_high',recommendation:'正常定投'},
+      {name:'有色金属',pe_ttm:21.07,pb:3.49,rating:'fair',recommendation:'正常定投'},
+    ],
+    northbound_flow:{daily:[],total_20d_yi:0},
+    margin_trading:[{date:'20260702',total_yi:15297}],
+    macro:{
+      cpi:[{date:'2026-05-01',yoy:1.2}],
+      pmi:[{date:'2026-06-01',manufacturing:50.3}],
+    },
+    kline_hs300:{ma250:4569.23,latest_close:4864,above_ma250:true},
+  };
+}
+
+function generateDemoFunds() {
+  return {
+    '沪深300': [
+      {code:'110020',name:'易方达沪深300ETF联接A',tag:'低费率龙头',latest_nav:1.95,return_1m:-1.48,return_3m:8.05,return_6m:6.09,return_1y:26.84,nav_monthly:[{month:'2025-07',nav:1.54},{month:'2025-08',nav:1.52},{month:'2025-09',nav:1.61},{month:'2025-10',nav:1.58},{month:'2025-11',nav:1.65},{month:'2025-12',nav:1.72},{month:'2026-01',nav:1.82},{month:'2026-02',nav:1.88},{month:'2026-03',nav:1.80},{month:'2026-04',nav:1.85},{month:'2026-05',nav:1.98},{month:'2026-06',nav:2.01},{month:'2026-07',nav:1.95}]},
+      {code:'007339',name:'广发沪深300ETF联接A',tag:'规模大流动性好',latest_nav:1.42,return_1m:-1.49,return_3m:8.0,return_6m:5.97,return_1y:26.57,nav_monthly:[{month:'2025-07',nav:1.12},{month:'2025-12',nav:1.25},{month:'2026-03',nav:1.32},{month:'2026-06',nav:1.44},{month:'2026-07',nav:1.42}]},
+    ],
+    '电子': [
+      {code:'163116',name:'申万电子行业指数A',tag:'纯电子行业',latest_nav:2.85,return_1m:14.62,return_3m:69.04,return_6m:64.81,return_1y:154.85,nav_monthly:[{month:'2025-07',nav:1.12},{month:'2025-10',nav:1.35},{month:'2026-01',nav:1.68},{month:'2026-04',nav:2.15},{month:'2026-07',nav:2.85}]},
+    ],
+    '医药生物': [
+      {code:'003095',name:'中欧医疗健康混合A',tag:'医药龙头',latest_nav:1.94,return_1m:23.23,return_3m:16.23,return_6m:4.65,return_1y:16.07,nav_monthly:[{month:'2025-07',nav:1.67},{month:'2025-10',nav:1.72},{month:'2026-01',nav:1.85},{month:'2026-04',nav:1.58},{month:'2026-07',nav:1.94}]},
+      {code:'001717',name:'工银前沿医疗A',tag:'医疗主题',latest_nav:1.52,return_1m:21.42,return_3m:16.45,return_6m:3.84,return_1y:11.17,nav_monthly:[{month:'2025-07',nav:1.37},{month:'2026-01',nav:1.46},{month:'2026-07',nav:1.52}]},
+    ],
+    '电力设备': [
+      {code:'011101',name:'天弘中证光伏产业A',tag:'光伏主题',latest_nav:1.06,return_1m:0.36,return_3m:1.2,return_6m:2.49,return_1y:1.69,nav_monthly:[{month:'2025-07',nav:1.04},{month:'2026-01',nav:1.05},{month:'2026-07',nav:1.06}]},
+      {code:'160225',name:'国泰国证新能源车A',tag:'新能源车',latest_nav:1.82,return_1m:-4.29,return_3m:0.25,return_6m:2.63,return_1y:43.3,nav_monthly:[{month:'2025-07',nav:1.27},{month:'2026-01',nav:1.78},{month:'2026-07',nav:1.82}]},
+    ],
+    '食品饮料': [
+      {code:'161725',name:'招商中证白酒指数',tag:'白酒龙头',latest_nav:0.51,return_1m:-10.99,return_3m:-19.1,return_6m:-30.17,return_1y:-28.64,nav_monthly:[{month:'2025-07',nav:0.72},{month:'2025-10',nav:0.68},{month:'2026-01',nav:0.73},{month:'2026-04',nav:0.63},{month:'2026-07',nav:0.51}]},
+    ],
+    '银行': [
+      {code:'240019',name:'华宝中证银行ETF联接A',tag:'银行ETF',latest_nav:1.35,return_1m:-5.28,return_3m:-5.95,return_6m:-7.95,return_1y:-12.88,nav_monthly:[{month:'2025-07',nav:1.55},{month:'2026-01',nav:1.47},{month:'2026-07',nav:1.35}]},
+    ],
+    '通信': [
+      {code:'007817',name:'国泰通信设备ETF联接A',tag:'通信设备',latest_nav:3.42,return_1m:-2.62,return_3m:45.17,return_6m:55.92,return_1y:229.02,nav_monthly:[{month:'2025-07',nav:1.04},{month:'2025-10',nav:1.52},{month:'2026-01',nav:2.36},{month:'2026-04',nav:3.51},{month:'2026-07',nav:3.42}]},
+      {code:'008086',name:'华夏5G通信ETF联接A',tag:'5G主题',latest_nav:2.85,return_1m:0.81,return_3m:52.91,return_6m:63.12,return_1y:215.27,nav_monthly:[{month:'2025-07',nav:0.90},{month:'2026-01',nav:1.82},{month:'2026-07',nav:2.85}]},
+    ],
+    '计算机': [
+      {code:'160626',name:'鹏华中证信息技术A',tag:'信息技术',latest_nav:2.45,return_1m:13.3,return_3m:55.94,return_6m:50.32,return_1y:111.11,nav_monthly:[{month:'2025-07',nav:1.16},{month:'2026-01',nav:1.58},{month:'2026-07',nav:2.45}]},
+    ],
+    '有色金属': [
+      {code:'165520',name:'中信保诚中证800有色A',tag:'有色金属',latest_nav:2.15,return_1m:-7.57,return_3m:-4.28,return_6m:3.38,return_1y:66.58,nav_monthly:[{month:'2025-07',nav:1.29},{month:'2025-10',nav:1.68},{month:'2026-01',nav:2.24},{month:'2026-04',nav:2.32},{month:'2026-07',nav:2.15}]},
+    ],
+  };
+}
+
+// ============================================================
+// Rendering
+// ============================================================
+function render() {
+  if (!DATA) return;
+  renderSignal();
+  renderHeatmap();
+  renderValuationList();
+  renderRadar();
+  renderDimensions();
+  renderAdvice();
+  renderPortfolio();
+  renderSettings();
+}
+
+function renderSignal() {
+  const s = DATA.signal;
+  const card = document.getElementById('signalCard');
+  card.className = 'signal-card signal-' + s.color;
+  document.getElementById('headerDot').style.background = 'var(--' + (s.color === 'green' ? 'green' : s.color === 'red' ? 'red' : s.color === 'yellow' ? 'yellow' : 'blue') + ')';
+
+  const icons = {green:'++', blue:'=', yellow:'--', red:'!!'};
+  document.getElementById('signalIcon').textContent = icons[s.color] || '=';
+  document.getElementById('signalLabel').textContent = s.label;
+  document.getElementById('signalScore').textContent = '综合评分 ' + s.score + ' / 100';
+
+  const amount = Math.round(SETTINGS.baseAmount * s.coefficient);
+  document.getElementById('signalAmount').textContent = '¥' + amount.toLocaleString();
+
+  document.getElementById('updateTime').textContent = DATA.meta?.date || '--';
+  document.getElementById('lastUpdate').textContent = DATA.meta?.date || '--';
+}
+
+function getHeatClass(pct) {
+  if (pct >= 5) return 'heat-5';
+  if (pct >= 3) return 'heat-4';
+  if (pct >= 1.5) return 'heat-3';
+  if (pct >= 0.3) return 'heat-2';
+  if (pct >= -0.3) return 'heat-1';
+  if (pct >= -1.5) return 'heat--1';
+  if (pct >= -3) return 'heat--2';
+  if (pct >= -5) return 'heat--3';
+  return 'heat--4';
+}
+
+function renderHeatmap() {
+  const container = document.getElementById('heatmap');
+  const sectors = DATA.sectors_realtime || [];
+  const field = CURRENT_TIME_FIELD;
+
+  const sorted = [...sectors].sort((a, b) => (b[field] || 0) - (a[field] || 0));
+  const top = sorted.slice(0, 28); // 4 columns x 7 rows
+
+  container.innerHTML = top.map(s => {
+    const pct = s[field] || 0;
+    const cls = getHeatClass(pct);
+    const sign = pct >= 0 ? '+' : '';
+    return `<div class="heat-cell ${cls}" onclick="showSectorDetail('${s.name}')">
+      <div class="heat-name">${s.name}</div>
+      <div class="heat-pct">${sign}${pct.toFixed(2)}%</div>
+    </div>`;
+  }).join('');
+}
+
+function renderValuationList() {
+  const container = document.getElementById('valuationList');
+  const swVal = DATA.sw_valuation || [];
+  const sorted = [...swVal].sort((a, b) => (a.pe_ttm || 999) - (b.pe_ttm || 999));
+
+  container.innerHTML = sorted.slice(0, 15).map(s => {
+    const pe = s.pe_ttm;
+    let badge = '', cls = '';
+    if (pe <= 0) { badge = '亏损'; cls = 'badge-stop'; }
+    else if (pe < 15) { badge = '低估'; cls = 'badge-add'; }
+    else if (pe < 30) { badge = '合理'; cls = 'badge-normal'; }
+    else if (pe < 50) { badge = '偏高'; cls = 'badge-wait'; }
+    else { badge = '高估'; cls = 'badge-stop'; }
+
+    return `<div class="advice-card" onclick="showSectorDetail('${s.name}')">
+      <div class="advice-name">
+        <div class="name">${s.name}</div>
+        <div class="pe">PE(TTM) ${pe > 0 ? pe.toFixed(1) : '--'} | PB ${s.pb ? s.pb.toFixed(2) : '--'} | 股息率 ${s.dividend_yield ? s.dividend_yield.toFixed(2) + '%' : '--'}</div>
+      </div>
+      <span class="advice-badge ${cls}">${badge}</span>
+    </div>`;
+  }).join('');
+}
+
+function renderRadar() {
+  const chart = echarts.init(document.getElementById('radarChart'));
+  const dims = DATA.signal.dimensions;
+  const names = ['估值', '基本面', '趋势', '情绪', '均衡度'];
+  const keys = ['valuation', 'fundamentals', 'trend', 'sentiment', 'balance'];
+  const values = keys.map(k => dims[k]?.score || 50);
+
+  chart.setOption({
+    radar: {
+      indicator: names.map(n => ({name: n, max: 100})),
+      shape: 'circle',
+      axisName: {color: '#8b949e', fontSize: 12},
+      splitArea: {areaStyle: {color: ['rgba(88,166,255,.03)','rgba(88,166,255,.06)','rgba(88,166,255,.03)','rgba(88,166,255,.06)','rgba(88,166,255,.03)']}},
+      splitLine: {lineStyle: {color: '#30363d'}},
+      axisLine: {lineStyle: {color: '#30363d'}},
+    },
+    series: [{
+      type: 'radar',
+      data: [{
+        value: values,
+        areaStyle: {color: 'rgba(88,166,255,.15)'},
+        lineStyle: {color: '#58a6ff', width: 2},
+        itemStyle: {color: '#58a6ff'},
+        symbol: 'circle', symbolSize: 6,
+      }],
+    }],
+  });
+
+  window.addEventListener('resize', () => chart.resize());
+}
+
+function renderDimensions() {
+  const container = document.getElementById('dimList');
+  const dims = DATA.signal.dimensions;
+  const items = [
+    {key:'valuation', name:'市场估值', icon:'V'},
+    {key:'fundamentals', name:'经济基本面', icon:'F'},
+    {key:'trend', name:'技术趋势', icon:'T'},
+    {key:'sentiment', name:'资金情绪', icon:'S'},
+    {key:'balance', name:'板块均衡度', icon:'B'},
+  ];
+
+  container.innerHTML = items.map(item => {
+    const d = dims[item.key] || {score:50, weight:0.2, detail:''};
+    const score = d.score;
+    const color = score >= 70 ? 'var(--green)' : score >= 50 ? 'var(--blue)' : score >= 30 ? 'var(--yellow)' : 'var(--red)';
+    const bg = score >= 70 ? 'var(--green-bg)' : score >= 50 ? 'var(--blue-bg)' : score >= 30 ? 'var(--yellow-bg)' : 'var(--red-bg)';
+
+    return `<div class="dim-card">
+      <div class="dim-score" style="background:${bg};color:${color}">${score}</div>
+      <div class="dim-info">
+        <div class="name">${item.name} <span class="weight">${(d.weight*100).toFixed(0)}%</span></div>
+        <div class="detail">${d.detail}</div>
+      </div>
+      <div class="dim-bar"><div class="dim-bar-fill" style="width:${score}%;background:${color}"></div></div>
+    </div>`;
+  }).join('');
+}
+
+function renderAdvice() {
+  const container = document.getElementById('adviceList');
+  const advice = DATA.sector_advice || [];
+
+  container.innerHTML = advice.map(a => {
+    let badge = '', cls = '';
+    if (a.recommendation.includes('加码')) { badge = '建议加码'; cls = 'badge-add'; }
+    else if (a.recommendation.includes('正常')) { badge = '正常定投'; cls = 'badge-normal'; }
+    else if (a.recommendation.includes('谨慎') || a.recommendation.includes('减少')) { badge = '谨慎'; cls = 'badge-wait'; }
+    else { badge = '暂停'; cls = 'badge-stop'; }
+
+    // Find today's change from sectors_realtime
+    const sector = (DATA.sectors_realtime || []).find(s => s.name === a.name);
+    const change = sector ? sector.change_pct : null;
+    const changeStr = change !== null ? `<span class="advice-change ${change >= 0 ? 'change-up' : 'change-down'}">${change >= 0 ? '+' : ''}${change.toFixed(2)}%</span>` : '';
+
+    return `<div class="advice-card" onclick="showSectorDetail('${a.name}')">
+      <div class="advice-name">
+        <div class="name">${a.name}</div>
+        <div class="pe">PE(TTM) ${a.pe_ttm ? a.pe_ttm.toFixed(1) : '--'}</div>
+      </div>
+      <span class="advice-badge ${cls}">${badge}</span>
+      ${changeStr}
+    </div>`;
+  }).join('');
+}
+
+function renderPortfolio() {
+  const totalInvested = PLANS.reduce((sum, p) => sum + (p.total_invested || 0), 0);
+  const totalValue = PLANS.reduce((sum, p) => sum + (p.current_value || p.total_invested || 0), 0);
+  const totalReturn = totalInvested > 0 ? ((totalValue - totalInvested) / totalInvested * 100) : 0;
+  const totalPeriods = PLANS.reduce((sum, p) => sum + (p.periods || 0), 0);
+
+  document.getElementById('totalInvested').textContent = '¥' + totalInvested.toLocaleString();
+  document.getElementById('totalValue').textContent = '¥' + totalValue.toLocaleString();
+  const returnEl = document.getElementById('totalReturn');
+  returnEl.textContent = (totalReturn >= 0 ? '+' : '') + totalReturn.toFixed(2) + '%';
+  returnEl.className = 'port-value ' + (totalReturn >= 0 ? 'positive' : 'negative');
+  document.getElementById('totalPeriods').textContent = totalPeriods + ' 个月';
+
+  const coeff = DATA?.signal?.coefficient || 1.0;
+  const monthTotal = Math.round(SETTINGS.baseAmount * coeff);
+  document.getElementById('monthSuggest').textContent = '¥' + monthTotal.toLocaleString();
+
+  // Render plans
+  const container = document.getElementById('planList');
+  if (PLANS.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text3);font-size:13px">暂无定投计划，点击下方按钮添加</div>';
+    return;
+  }
+  container.innerHTML = PLANS.map((p, i) => {
+    const ret = p.total_invested > 0 ? ((p.current_value || p.total_invested) - p.total_invested) / p.total_invested * 100 : 0;
+    return `<div class="plan-card">
+      <div class="plan-header">
+        <span class="plan-name">${p.name}</span>
+        <span class="plan-tag">${p.sector || '--'}</span>
+      </div>
+      <div class="plan-meta">
+        <span>月投 ¥${(p.monthly_amount || 0).toLocaleString()}</span>
+        <span>已投 ${p.periods || 0} 期</span>
+        <span>¥${(p.total_invested || 0).toLocaleString()}</span>
+        <span style="color:${ret >= 0 ? 'var(--red)' : 'var(--green)'}">${ret >= 0 ? '+' : ''}${ret.toFixed(1)}%</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderSettings() {
+  document.getElementById('baseAmount').value = SETTINGS.baseAmount;
+  document.getElementById('investDay').value = SETTINGS.investDay;
+}
+
+// ============================================================
+// Interactions
+// ============================================================
+function switchNav(idx) {
+  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+  document.querySelectorAll('.page').forEach((p, i) => p.classList.toggle('active', i === idx));
+}
+
+function switchTime(el) {
+  document.querySelectorAll('.time-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  CURRENT_TIME_FIELD = el.dataset.field;
+  renderHeatmap();
+}
+
+function showSectorDetail(name) {
+  const sheet = document.getElementById('sectorSheet');
+  document.getElementById('sheetTitle').textContent = name;
+
+  const sector = (DATA.sectors_realtime || []).find(s => s.name === name);
+  const swVal = (DATA.sw_valuation || []).find(s => s.name === name);
+
+  let html = '';
+
+  // 1. 涨跌幅概览
+  if (sector) {
+    html += `<div class="dim-card" style="margin-bottom:8px">
+      <div class="dim-info">
+        <div class="name">今日涨跌幅</div>
+        <div class="detail" style="font-size:18px;font-weight:700;color:${sector.change_pct >= 0 ? 'var(--red)' : 'var(--green)'};margin-top:4px">
+          ${sector.change_pct >= 0 ? '+' : ''}${sector.change_pct.toFixed(2)}%
+        </div>
+      </div>
+    </div>`;
+    const periods = [
+      {label:'近5日', val: sector.change_5day},
+      {label:'本月', val: sector.change_month},
+      {label:'近3月', val: sector.change_3month},
+      {label:'今年以来', val: sector.change_ytd},
+      {label:'近1年', val: sector.change_1year},
+    ];
+    html += '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px">';
+    periods.forEach(p => {
+      const v = p.val || 0;
+      html += `<div style="text-align:center;padding:8px 4px;background:var(--card);border-radius:8px">
+        <div style="font-size:10px;color:var(--text3)">${p.label}</div>
+        <div style="font-size:12px;font-weight:600;color:${v >= 0 ? 'var(--red)' : 'var(--green)'};margin-top:2px">${v >= 0 ? '+' : ''}${v.toFixed(1)}%</div>
+      </div>`;
+    });
+    html += '</div>';
+    if (sector.turnover) {
+      html += `<div style="font-size:12px;color:var(--text3);margin-bottom:12px">成交额: ${(sector.turnover / 1e8).toFixed(1)}亿</div>`;
+    }
+  }
+
+  // 2. 估值数据
+  if (swVal) {
+    html += `<div class="dim-card" style="margin-bottom:8px">
+      <div class="dim-info">
+        <div class="name">估值数据</div>
+        <div class="detail" style="margin-top:4px">
+          PE(TTM): ${swVal.pe_ttm > 0 ? swVal.pe_ttm.toFixed(1) : '亏损'} | PB: ${swVal.pb ? swVal.pb.toFixed(2) : '--'} | 股息率: ${swVal.dividend_yield ? swVal.dividend_yield.toFixed(2) + '%' : '--'}
+        </div>
+      </div>
+    </div>`;
+  }
+
+  // 3. 定投建议
+  const adv = (DATA.sector_advice || []).find(a => a.name === name);
+  if (adv) {
+    html += `<div class="dim-card" style="margin-bottom:12px">
+      <div class="dim-info">
+        <div class="name">定投建议</div>
+        <div class="detail" style="margin-top:4px;font-size:13px;color:var(--blue)">${adv.recommendation}</div>
+      </div>
+    </div>`;
+  }
+
+  // 4. 推荐基金
+  const funds = (FUND_DATA || {})[name];
+  if (funds && funds.length > 0) {
+    html += `<div style="font-size:13px;color:var(--text2);margin:12px 0 8px;display:flex;align-items:center;gap:6px">
+      <span style="width:3px;height:12px;background:var(--blue);border-radius:2px;display:inline-block"></span>
+      推荐定投基金
+    </div>`;
+
+    funds.forEach((fund, fi) => {
+      const chartId = 'fundChart_' + name + '_' + fi;
+      html += `<div class="advice-card" style="flex-direction:column;align-items:stretch;gap:8px;margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <span style="font-size:13px;font-weight:600">${fund.name}</span>
+            <span style="font-size:10px;color:var(--text3);margin-left:6px">${fund.code}</span>
+          </div>
+          <span class="plan-tag">${fund.tag || ''}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;text-align:center">
+          <div style="padding:4px;background:var(--card2);border-radius:6px">
+            <div style="font-size:9px;color:var(--text3)">近1月</div>
+            <div style="font-size:11px;font-weight:600;color:${(fund.return_1m||0) >= 0 ? 'var(--red)' : 'var(--green)'}">${(fund.return_1m||0) >= 0 ? '+' : ''}${(fund.return_1m||0).toFixed(1)}%</div>
+          </div>
+          <div style="padding:4px;background:var(--card2);border-radius:6px">
+            <div style="font-size:9px;color:var(--text3)">近3月</div>
+            <div style="font-size:11px;font-weight:600;color:${(fund.return_3m||0) >= 0 ? 'var(--red)' : 'var(--green)'}">${(fund.return_3m||0) >= 0 ? '+' : ''}${(fund.return_3m||0).toFixed(1)}%</div>
+          </div>
+          <div style="padding:4px;background:var(--card2);border-radius:6px">
+            <div style="font-size:9px;color:var(--text3)">近6月</div>
+            <div style="font-size:11px;font-weight:600;color:${(fund.return_6m||0) >= 0 ? 'var(--red)' : 'var(--green)'}">${(fund.return_6m||0) >= 0 ? '+' : ''}${(fund.return_6m||0).toFixed(1)}%</div>
+          </div>
+          <div style="padding:4px;background:var(--card2);border-radius:6px">
+            <div style="font-size:9px;color:var(--text3)">近1年</div>
+            <div style="font-size:11px;font-weight:600;color:${(fund.return_1y||0) >= 0 ? 'var(--red)' : 'var(--green)'}">${(fund.return_1y||0) >= 0 ? '+' : ''}${(fund.return_1y||0).toFixed(1)}%</div>
+          </div>
+        </div>
+        ${fund.nav_monthly && fund.nav_monthly.length > 2 ? `<div id="${chartId}" style="width:100%;height:100px"></div>` : ''}
+      </div>`;
+    });
+  }
+
+  // 5. 免责声明
+  html += `<div style="font-size:10px;color:var(--text3);text-align:center;margin-top:12px;line-height:1.5">
+    以上基金仅为参考推荐，不构成投资建议<br>过往业绩不代表未来表现
+  </div>`;
+
+  document.getElementById('sheetContent').innerHTML = html;
+  sheet.classList.add('show');
+
+  // Render fund charts after DOM update
+  setTimeout(() => {
+    if (funds) {
+      funds.forEach((fund, fi) => {
+        if (!fund.nav_monthly || fund.nav_monthly.length < 3) return;
+        const chartId = 'fundChart_' + name + '_' + fi;
+        const el = document.getElementById(chartId);
+        if (!el) return;
+        const chart = echarts.init(el);
+        const months = fund.nav_monthly.map(d => d.month);
+        const navs = fund.nav_monthly.map(d => d.nav);
+        const isUp = navs[navs.length - 1] >= navs[0];
+        chart.setOption({
+          grid: {left: 0, right: 0, top: 5, bottom: 18, containLabel: false},
+          xAxis: {type: 'category', data: months, show: true, axisLine: {show: false}, axisTick: {show: false},
+            axisLabel: {fontSize: 9, color: '#6e7681', interval: Math.floor(months.length / 3), formatter: v => v.slice(5)}},
+          yAxis: {type: 'value', show: false, min: 'dataMin', max: 'dataMax'},
+          series: [{
+            type: 'line', data: navs, smooth: true, symbol: 'none', lineStyle: {width: 2, color: isUp ? '#f85149' : '#3fb950'},
+            areaStyle: {color: {type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
+              colorStops: [{offset: 0, color: isUp ? 'rgba(248,81,73,.2)' : 'rgba(63,185,80,.2)'}, {offset: 1, color: 'transparent'}]}}
+          }],
+          tooltip: {trigger: 'axis', backgroundColor: '#1c2128', borderColor: '#30363d', textStyle: {color: '#e6edf3', fontSize: 11},
+            formatter: p => `${p[0].axisValue}<br/>净值: ${p[0].value.toFixed(4)}`},
+        });
+      });
+    }
+  }, 100);
+}
+
+function closeSheet(e) {
+  if (e.target.classList.contains('overlay')) {
+    document.getElementById('sectorSheet').classList.remove('show');
+  }
+}
+
+function addPlan() {
+  const name = prompt('基金名称 (如: 易方达沪深300ETF联接A)');
+  if (!name) return;
+  const code = prompt('基金代码 (如: 110020)');
+  if (!code) return;
+  const amount = parseInt(prompt('月投金额 (元)', '1000')) || 1000;
+  const sector = prompt('所属板块 (如: 宽基指数/科技AI/医药)', '宽基指数');
+
+  PLANS.push({
+    name, code, sector: sector || '未分类',
+    monthly_amount: amount,
+    start_date: new Date().toISOString().slice(0, 10),
+    periods: 0,
+    total_invested: 0,
+    current_value: 0,
+  });
+  saveSettings();
+  renderPortfolio();
+}
+
+function saveSettings() {
+  SETTINGS.baseAmount = parseInt(document.getElementById('baseAmount')?.value) || 5000;
+  SETTINGS.investDay = parseInt(document.getElementById('investDay')?.value) || 15;
+  try {
+    localStorage.setItem('dtr_settings', JSON.stringify(SETTINGS));
+    localStorage.setItem('dtr_plans', JSON.stringify(PLANS));
+  } catch(e) {}
+  if (DATA) renderSignal();
+}
+
+// ============================================================
+// Init
+// ============================================================
+loadData();
+</script>
+</body>
+</html>

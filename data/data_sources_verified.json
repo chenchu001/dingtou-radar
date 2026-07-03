@@ -1,0 +1,347 @@
+{
+  "meta": {
+    "date": "2026-07-03",
+    "generated_at": "2026-07-03T11:18:02.685849",
+    "data_sources": [
+      "eastmoney_public_api"
+    ],
+    "api_endpoints_used": {
+      "industry_realtime": "https://push2.eastmoney.com/api/qt/clist/get",
+      "index_valuation": "https://push2.eastmoney.com/api/qt/stock/get",
+      "northbound_flow": "https://datacenter-web.eastmoney.com/api/data/v1/get (RPT_MUTUAL_DEAL_HISTORY)",
+      "margin_trading": "https://datacenter-web.eastmoney.com/api/data/v1/get (RPTA_WEB_RZRQ_ZCZJMX)",
+      "cpi": "https://datacenter-web.eastmoney.com/api/data/v1/get (RPT_ECONOMY_CPI)",
+      "pmi": "https://datacenter-web.eastmoney.com/api/data/v1/get (RPT_ECONOMY_PMI)",
+      "kline": "https://push2his.eastmoney.com/api/qt/stock/kline/get",
+      "funds": "https://fund.eastmoney.com/data/rankhandler.aspx"
+    }
+  },
+  "verification_results": {
+    "1_行业实时行情": true,
+    "2_行业多周期涨跌幅": true,
+    "3_指数估值PE_PB": true,
+    "4_北向资金流向": true,
+    "5_融资融券余额": false,
+    "6_宏观CPI": true,
+    "7_宏观PMI": true,
+    "8_指数历史K线": true,
+    "9_指数基金列表": true
+  },
+  "sectors": [
+    {
+      "name": "黄金",
+      "code": "BK1617",
+      "change_pct": 8.27,
+      "pe": 19.76,
+      "pb": "-",
+      "turnover": 13851713060.0,
+      "market_cap": 459398240000.0
+    },
+    {
+      "name": "贵金属",
+      "code": "BK0732",
+      "change_pct": 7.13,
+      "pe": 20.93,
+      "pb": "-",
+      "turnover": 18750539051.0,
+      "market_cap": 564848656000.0
+    },
+    {
+      "name": "机器人",
+      "code": "BK1408",
+      "change_pct": 6.91,
+      "pe": -1917.65,
+      "pb": "-",
+      "turnover": 21352099885.0,
+      "market_cap": 314963984000.0
+    },
+    {
+      "name": "航天装备Ⅲ",
+      "code": "BK1385",
+      "change_pct": 5.1,
+      "pe": 532.62,
+      "pb": "-",
+      "turnover": 9932806255.0,
+      "market_cap": 491206736000.0
+    },
+    {
+      "name": "航天装备Ⅱ",
+      "code": "BK1232",
+      "change_pct": 5.1,
+      "pe": 532.62,
+      "pb": "-",
+      "turnover": 9932806255.0,
+      "market_cap": 491206736000.0
+    },
+    {
+      "name": "玻纤制造",
+      "code": "BK1462",
+      "change_pct": 4.81,
+      "pe": 118.77,
+      "pb": "-",
+      "turnover": 25440211258.0,
+      "market_cap": 919584016000.0
+    },
+    {
+      "name": "电机Ⅲ",
+      "code": "BK1307",
+      "change_pct": 4.37,
+      "pe": 61.8,
+      "pb": "-",
+      "turnover": 9033995444.0,
+      "market_cap": 284516080000.0
+    },
+    {
+      "name": "电机Ⅱ",
+      "code": "BK1030",
+      "change_pct": 4.37,
+      "pe": 61.8,
+      "pb": "-",
+      "turnover": 9033995444.0,
+      "market_cap": 284516080000.0
+    },
+    {
+      "name": "航空装备Ⅲ",
+      "code": "BK1384",
+      "change_pct": 4.01,
+      "pe": 78.08,
+      "pb": "-",
+      "turnover": 15927492583.0,
+      "market_cap": 1032332720000.0
+    },
+    {
+      "name": "航空装备Ⅱ",
+      "code": "BK1231",
+      "change_pct": 4.01,
+      "pe": 78.08,
+      "pb": "-",
+      "turnover": 15927492583.0,
+      "market_cap": 1032332720000.0
+    },
+    {
+      "name": "其他汽车零部件",
+      "code": "BK1528",
+      "change_pct": 3.63,
+      "pe": 52.61,
+      "pb": "-",
+      "turnover": 9672056210.0,
+      "market_cap": 365738704000.0
+    },
+    {
+      "name": "底盘与发动机系统",
+      "code": "BK1526",
+      "change_pct": 3.48,
+      "pe": 33.09,
+      "pb": "-",
+      "turnover": 27650542786.0,
+      "market_cap": 1167556160000.0
+    },
+    {
+      "name": "其他数字媒体",
+      "code": "BK1295",
+      "change_pct": 3.41,
+      "pe": -78.12,
+      "pb": "-",
+      "turnover": 1319250089.0,
+      "market_cap": 11995098000.0
+    },
+    {
+      "name": "白银",
+      "code": "BK1616",
+      "change_pct": 3.35,
+      "pe": 28.2,
+      "pb": "-",
+      "turnover": 4898825990.0,
+      "market_cap": 105450414000.0
+    },
+    {
+      "name": "汽车零部件",
+      "code": "BK0481",
+      "change_pct": 3.2,
+      "pe": 29.07,
+      "pb": "-",
+      "turnover": 57028944137.0,
+      "market_cap": 2762764064000.0
+    },
+    {
+      "name": "农用机械",
+      "code": "BK1404",
+      "change_pct": 3.17,
+      "pe": 110.13,
+      "pb": "-",
+      "turnover": 491009916.0,
+      "market_cap": 45822287000.0
+    },
+    {
+      "name": "国防军工",
+      "code": "BK1204",
+      "change_pct": 3.16,
+      "pe": 91.08,
+      "pb": "-",
+      "turnover": 62243857327.0,
+      "market_cap": 3396644208000.0
+    },
+    {
+      "name": "铜",
+      "code": "BK1615",
+      "change_pct": 3.09,
+      "pe": 15.91,
+      "pb": "-",
+      "turnover": 28611133693.0,
+      "market_cap": 1758397024000.0
+    },
+    {
+      "name": "自动化设备",
+      "code": "BK1237",
+      "change_pct": 3.04,
+      "pe": 116.14,
+      "pb": "-",
+      "turnover": 54820041791.0,
+      "market_cap": 1649496032000.0
+    },
+    {
+      "name": "电网自动化设备",
+      "code": "BK1309",
+      "change_pct": 3.02,
+      "pe": 32.99,
+      "pb": "-",
+      "turnover": 6153552451.0,
+      "market_cap": 508123424000.0
+    },
+    {
+      "name": "金属制品",
+      "code": "BK1396",
+      "change_pct": 2.98,
+      "pe": 102.8,
+      "pb": "-",
+      "turnover": 25938285065.0,
+      "market_cap": 939064720000.0
+    },
+    {
+      "name": "印制电路板",
+      "code": "BK1340",
+      "change_pct": 2.95,
+      "pe": 98.08,
+      "pb": "-",
+      "turnover": 81553097273.0,
+      "market_cap": 3078444576000.0
+    },
+    {
+      "name": "车身附件及饰件",
+      "code": "BK1525",
+      "change_pct": 2.93,
+      "pe": 19.41,
+      "pb": "-",
+      "turnover": 7770038375.0,
+      "market_cap": 498850960000.0
+    },
+    {
+      "name": "风电零部件",
+      "code": "BK1313",
+      "change_pct": 2.93,
+      "pe": 99.7,
+      "pb": "-",
+      "turnover": 4993524457.0,
+      "market_cap": 264596384000.0
+    },
+    {
+      "name": "稀土",
+      "code": "BK1626",
+      "change_pct": 2.88,
+      "pe": 76.15,
+      "pb": "-",
+      "turnover": 8464945398.0,
+      "market_cap": 321810336000.0
+    },
+    {
+      "name": "大宗用纸",
+      "code": "BK1544",
+      "change_pct": 2.86,
+      "pe": -15.33,
+      "pb": "-",
+      "turnover": 1031439236.0,
+      "market_cap": 86225207000.0
+    },
+    {
+      "name": "航海装备Ⅲ",
+      "code": "BK1383",
+      "change_pct": 2.85,
+      "pe": 30.73,
+      "pb": "-",
+      "turnover": 5341803818.0,
+      "market_cap": 510774608000.0
+    },
+    {
+      "name": "航海装备Ⅱ",
+      "code": "BK1230",
+      "change_pct": 2.85,
+      "pe": 30.73,
+      "pb": "-",
+      "turnover": 5341803818.0,
+      "market_cap": 510774608000.0
+    },
+    {
+      "name": "轮胎轮毂",
+      "code": "BK1527",
+      "change_pct": 2.84,
+      "pe": 16.66,
+      "pb": "-",
+      "turnover": 2727759704.0,
+      "market_cap": 236045648000.0
+    },
+    {
+      "name": "汽车",
+      "code": "BK1211",
+      "change_pct": 2.79,
+      "pe": 29.48,
+      "pb": "-",
+      "turnover": 69748639892.0,
+      "market_cap": 4583609856000.0
+    },
+    {
+      "name": "风电设备",
+      "code": "BK1032",
+      "change_pct": 2.73,
+      "pe": 67.37,
+      "pb": "-",
+      "turnover": 8456075876.0,
+      "market_cap": 437248864000.0
+    },
+    {
+      "name": "改性塑料",
+      "code": "BK1437",
+      "change_pct": 2.59,
+      "pe": 60.96,
+      "pb": "-",
+      "turnover": 4797718710.0,
+      "market_cap": 191718913000.0
+    },
+    {
+      "name": "通信网络设备及器件",
+      "code": "BK1591",
+      "change_pct": 2.58,
+      "pe": 102.04,
+      "pb": "-",
+      "turnover": 81622763776.0,
+      "market_cap": 3604374368000.0
+    },
+    {
+      "name": "工控设备",
+      "code": "BK1407",
+      "change_pct": 2.52,
+      "pe": 61.34,
+      "pb": "-",
+      "turnover": 13075054263.0,
+      "market_cap": 543106592000.0
+    },
+    {
+      "name": "制冷空调设备",
+      "code": "BK1400",
+      "change_pct": 2.52,
+      "pe": 69.84,
+      "pb": "-",
+      "turnover": 6500710077.0,
+      "market_cap": 215621520000.0
+    }
+  ]
+}
