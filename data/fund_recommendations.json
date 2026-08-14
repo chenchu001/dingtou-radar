@@ -4,12 +4,12 @@
       "code": "110020",
       "name": "易方达沪深300ETF联接A",
       "tag": "低费率龙头",
-      "latest_nav": 1.9156,
-      "latest_date": "2026-08-12",
-      "return_1m": -1.67,
-      "return_3m": -3.68,
-      "return_6m": 1.29,
-      "return_1y": 17.69,
+      "latest_nav": 1.9057,
+      "latest_date": "2026-08-13",
+      "return_1m": -2.03,
+      "return_3m": -5.14,
+      "return_6m": 0.79,
+      "return_1y": 16.65,
       "nav_monthly": [
         {
           "month": "2025-08",
@@ -61,7 +61,7 @@
         },
         {
           "month": "2026-08",
-          "nav": 1.9156
+          "nav": 1.9057
         }
       ]
     },
@@ -69,12 +69,12 @@
       "code": "007339",
       "name": "广发沪深300ETF联接A",
       "tag": "规模大流动性好",
-      "latest_nav": 1.8878,
-      "latest_date": "2026-08-12",
-      "return_1m": -1.69,
-      "return_3m": -3.73,
-      "return_6m": 1.18,
-      "return_1y": 17.45,
+      "latest_nav": 1.8781,
+      "latest_date": "2026-08-13",
+      "return_1m": -2.04,
+      "return_3m": -5.18,
+      "return_6m": 0.68,
+      "return_1y": 16.41,
       "nav_monthly": [
         {
           "month": "2025-08",
@@ -126,7 +126,7 @@
         },
         {
           "month": "2026-08",
-          "nav": 1.8878
+          "nav": 1.8781
         }
       ]
     }
@@ -136,12 +136,12 @@
       "code": "163116",
       "name": "申万电子行业指数A",
       "tag": "纯电子行业",
-      "latest_nav": 2.0462,
-      "latest_date": "2026-08-12",
-      "return_1m": -12.84,
-      "return_3m": 4.88,
-      "return_6m": 27.54,
-      "return_1y": 93.46,
+      "latest_nav": 2.0212,
+      "latest_date": "2026-08-13",
+      "return_1m": -10.26,
+      "return_3m": 0.31,
+      "return_6m": 23.97,
+      "return_1y": 90.39,
       "nav_monthly": [
         {
           "month": "2025-08",
@@ -193,7 +193,7 @@
         },
         {
           "month": "2026-08",
-          "nav": 2.0462
+          "nav": 2.0212
         }
       ]
     }
@@ -203,12 +203,12 @@
       "code": "003095",
       "name": "中欧医疗健康混合A",
       "tag": "医药龙头主动基",
-      "latest_nav": 2.12,
-      "latest_date": "2026-08-12",
-      "return_1m": 5.89,
-      "return_3m": 20.22,
-      "return_6m": 16.02,
-      "return_1y": 7.72,
+      "latest_nav": 2.1402,
+      "latest_date": "2026-08-13",
+      "return_1m": 1.35,
+      "return_3m": 22.84,
+      "return_6m": 18.23,
+      "return_1y": 9.27,
       "nav_monthly": [
         {
           "month": "2025-08",
@@ -260,7 +260,7 @@
         },
         {
           "month": "2026-08",
-          "nav": 2.12
+          "nav": 2.1402
         }
       ]
     },
@@ -268,12 +268,12 @@
       "code": "001717",
       "name": "工银瑞信前沿医疗A",
       "tag": "医疗主题",
-      "latest_nav": 3.53,
-      "latest_date": "2026-08-12",
-      "return_1m": 2.38,
-      "return_3m": 14.2,
-      "return_6m": 12.96,
-      "return_1y": 2.11,
+      "latest_nav": 3.56,
+      "latest_date": "2026-08-13",
+      "return_1m": -0.45,
+      "return_3m": 16.76,
+      "return_6m": 13.96,
+      "return_1y": 3.46,
       "nav_monthly": [
         {
           "month": "2025-08",
@@ -325,7 +325,7 @@
         },
         {
           "month": "2026-08",
-          "nav": 3.53
+          "nav": 3.56
         }
       ]
     }
@@ -335,12 +335,12 @@
       "code": "011101",
       "name": "天弘中证光伏产业A",
       "tag": "光伏主题",
-      "latest_nav": 1.0385,
-      "latest_date": "2026-08-12",
+      "latest_nav": 1.0386,
+      "latest_date": "2026-08-13",
       "return_1m": -2.41,
-      "return_3m": -1.67,
+      "return_3m": -1.68,
       "return_6m": -0.39,
-      "return_1y": -1.09,
+      "return_1y": -1.11,
       "nav_monthly": [
         {
           "month": "2025-08",
@@ -392,7 +392,7 @@
         },
         {
           "month": "2026-08",
-          "nav": 1.0385
+          "nav": 1.0386
         }
       ]
     },
@@ -400,12 +400,12 @@
       "code": "160225",
       "name": "国泰国证新能源车A",
       "tag": "新能源车",
-      "latest_nav": 1.8344,
-      "latest_date": "2026-08-12",
-      "return_1m": 2.16,
-      "return_3m": -16.01,
-      "return_6m": -10.41,
-      "return_1y": 25.58,
+      "latest_nav": 1.8197,
+      "latest_date": "2026-08-13",
+      "return_1m": 1.73,
+      "return_3m": -17.15,
+      "return_6m": -10.18,
+      "return_1y": 23.78,
       "nav_monthly": [
         {
           "month": "2025-08",
@@ -457,7 +457,7 @@
         },
         {
           "month": "2026-08",
-          "nav": 1.8344
+          "nav": 1.8197
         }
       ]
     }
@@ -467,12 +467,12 @@
       "code": "161725",
       "name": "招商中证白酒指数",
       "tag": "白酒龙头",
-      "latest_nav": 0.5809,
-      "latest_date": "2026-08-12",
-      "return_1m": 13.63,
-      "return_3m": -4.0,
-      "return_6m": -15.12,
-      "return_1y": -22.15,
+      "latest_nav": 0.5854,
+      "latest_date": "2026-08-13",
+      "return_1m": 9.01,
+      "return_3m": -1.71,
+      "return_6m": -13.38,
+      "return_1y": -21.55,
       "nav_monthly": [
         {
           "month": "2025-08",
@@ -524,7 +524,7 @@
         },
         {
           "month": "2026-08",
-          "nav": 0.5809
+          "nav": 0.5854
         }
       ]
     },
@@ -532,12 +532,12 @@
       "code": "001632",
       "name": "天弘中证食品饮料A",
       "tag": "食品饮料宽基",
-      "latest_nav": 1.8826,
-      "latest_date": "2026-08-12",
-      "return_1m": 8.65,
-      "return_3m": -4.12,
-      "return_6m": -9.46,
-      "return_1y": -12.05,
+      "latest_nav": 1.8808,
+      "latest_date": "2026-08-13",
+      "return_1m": 4.8,
+      "return_3m": -3.86,
+      "return_6m": -8.41,
+      "return_1y": -12.29,
       "nav_monthly": [
         {
           "month": "2025-08",
@@ -589,7 +589,7 @@
         },
         {
           "month": "2026-08",
-          "nav": 1.8826
+          "nav": 1.8808
         }
       ]
     }
@@ -599,12 +599,12 @@
       "code": "240019",
       "name": "华宝中证银行ETF联接A",
       "tag": "银行ETF",
-      "latest_nav": 1.5879,
-      "latest_date": "2026-08-12",
-      "return_1m": 2.12,
-      "return_3m": 1.98,
-      "return_6m": 3.45,
-      "return_1y": -6.07,
+      "latest_nav": 1.5952,
+      "latest_date": "2026-08-13",
+      "return_1m": 1.46,
+      "return_3m": 2.61,
+      "return_6m": 4.04,
+      "return_1y": -6.31,
       "nav_monthly": [
         {
           "month": "2025-08",
@@ -656,7 +656,7 @@
         },
         {
           "month": "2026-08",
-          "nav": 1.5879
+          "nav": 1.5952
         }
       ]
     }
@@ -666,12 +666,12 @@
       "code": "007817",
       "name": "国泰通信设备ETF联接A",
       "tag": "通信设备",
-      "latest_nav": 3.7749,
-      "latest_date": "2026-08-12",
-      "return_1m": -13.34,
-      "return_3m": -9.65,
-      "return_6m": 28.2,
-      "return_1y": 122.05,
+      "latest_nav": 3.7816,
+      "latest_date": "2026-08-13",
+      "return_1m": -11.07,
+      "return_3m": -12.27,
+      "return_6m": 25.5,
+      "return_1y": 121.59,
       "nav_monthly": [
         {
           "month": "2025-08",
@@ -723,7 +723,7 @@
         },
         {
           "month": "2026-08",
-          "nav": 3.7749
+          "nav": 3.7816
         }
       ]
     },
@@ -731,12 +731,12 @@
       "code": "008086",
       "name": "华夏5G通信ETF联接A",
       "tag": "5G主题",
-      "latest_nav": 3.0003,
-      "latest_date": "2026-08-12",
-      "return_1m": -13.88,
-      "return_3m": -4.86,
-      "return_6m": 33.47,
-      "return_1y": 119.37,
+      "latest_nav": 2.9968,
+      "latest_date": "2026-08-13",
+      "return_1m": -12.19,
+      "return_3m": -8.34,
+      "return_6m": 30.47,
+      "return_1y": 119.53,
       "nav_monthly": [
         {
           "month": "2025-08",
@@ -788,7 +788,7 @@
         },
         {
           "month": "2026-08",
-          "nav": 3.0003
+          "nav": 2.9968
         }
       ]
     }
@@ -798,12 +798,12 @@
       "code": "160626",
       "name": "鹏华中证信息技术A",
       "tag": "信息技术",
-      "latest_nav": 1.699,
-      "latest_date": "2026-08-12",
-      "return_1m": -10.75,
-      "return_3m": 2.43,
-      "return_6m": 18.22,
-      "return_1y": 66.65,
+      "latest_nav": 1.6806,
+      "latest_date": "2026-08-13",
+      "return_1m": -8.26,
+      "return_3m": -1.72,
+      "return_6m": 15.28,
+      "return_1y": 64.09,
       "nav_monthly": [
         {
           "month": "2025-08",
@@ -855,7 +855,7 @@
         },
         {
           "month": "2026-08",
-          "nav": 1.699
+          "nav": 1.6806
         }
       ]
     },
@@ -863,12 +863,12 @@
       "code": "000942",
       "name": "广发信息技术联接A",
       "tag": "计算机",
-      "latest_nav": 2.0464,
-      "latest_date": "2026-08-12",
-      "return_1m": -11.14,
-      "return_3m": 0.88,
-      "return_6m": 16.31,
-      "return_1y": 62.43,
+      "latest_nav": 2.0243,
+      "latest_date": "2026-08-13",
+      "return_1m": -8.65,
+      "return_3m": -2.99,
+      "return_6m": 13.29,
+      "return_1y": 59.92,
       "nav_monthly": [
         {
           "month": "2025-08",
@@ -920,7 +920,7 @@
         },
         {
           "month": "2026-08",
-          "nav": 2.0464
+          "nav": 2.0243
         }
       ]
     }
@@ -930,12 +930,12 @@
       "code": "165520",
       "name": "中信保诚中证800有色A",
       "tag": "有色金属",
-      "latest_nav": 2.8919,
-      "latest_date": "2026-08-12",
-      "return_1m": 9.31,
-      "return_3m": -10.96,
-      "return_6m": -18.33,
-      "return_1y": 57.14,
+      "latest_nav": 2.7891,
+      "latest_date": "2026-08-13",
+      "return_1m": 7.42,
+      "return_3m": -14.81,
+      "return_6m": -20.86,
+      "return_1y": 49.08,
       "nav_monthly": [
         {
           "month": "2025-08",
@@ -987,7 +987,7 @@
         },
         {
           "month": "2026-08",
-          "nav": 2.8919
+          "nav": 2.7891
         }
       ]
     }
