@@ -69,12 +69,12 @@
       "code": "007339",
       "name": "广发沪深300ETF联接A",
       "tag": "规模大流动性好",
-      "latest_nav": 1.6457,
-      "latest_date": "2026-10-22",
-      "return_1m": -8.61,
-      "return_3m": -14.16,
-      "return_6m": -9.8,
-      "return_1y": -9.28,
+      "latest_nav": 1.6734,
+      "latest_date": "2026-10-23",
+      "return_1m": -7.69,
+      "return_3m": -11.24,
+      "return_6m": -7.72,
+      "return_1y": -6.69,
       "nav_monthly": [
         {
           "month": "2025-10",
@@ -126,7 +126,7 @@
         },
         {
           "month": "2026-10",
-          "nav": 1.6457
+          "nav": 1.6734
         }
       ]
     }
@@ -136,12 +136,12 @@
       "code": "163116",
       "name": "申万电子行业指数A",
       "tag": "纯电子行业",
-      "latest_nav": 1.5938,
-      "latest_date": "2026-10-21",
-      "return_1m": -15.31,
-      "return_3m": -32.11,
-      "return_6m": 14.33,
-      "return_1y": 6.25,
+      "latest_nav": 1.5751,
+      "latest_date": "2026-10-23",
+      "return_1m": -19.87,
+      "return_3m": -27.46,
+      "return_6m": 5.83,
+      "return_1y": 10.36,
       "nav_monthly": [
         {
           "month": "2025-10",
@@ -193,7 +193,7 @@
         },
         {
           "month": "2026-10",
-          "nav": 1.5938
+          "nav": 1.5751
         }
       ]
     }
@@ -336,11 +336,11 @@
       "name": "天弘中证光伏产业A",
       "tag": "光伏主题",
       "latest_nav": 1.0372,
-      "latest_date": "2026-10-22",
+      "latest_date": "2026-10-23",
       "return_1m": 0.12,
-      "return_3m": -2.55,
-      "return_6m": -1.38,
-      "return_1y": -2.08,
+      "return_3m": -2.56,
+      "return_6m": -1.4,
+      "return_1y": -2.09,
       "nav_monthly": [
         {
           "month": "2025-10",
@@ -400,12 +400,12 @@
       "code": "160225",
       "name": "国泰国证新能源车A",
       "tag": "新能源车",
-      "latest_nav": 1.4007,
-      "latest_date": "2026-10-22",
-      "return_1m": -13.47,
-      "return_3m": -21.7,
-      "return_6m": -29.07,
-      "return_1y": -30.27,
+      "latest_nav": 1.4606,
+      "latest_date": "2026-10-23",
+      "return_1m": -9.66,
+      "return_3m": -17.13,
+      "return_6m": -25.64,
+      "return_1y": -24.37,
       "nav_monthly": [
         {
           "month": "2025-10",
@@ -457,7 +457,7 @@
         },
         {
           "month": "2026-10",
-          "nav": 1.4007
+          "nav": 1.4606
         }
       ]
     }
@@ -467,12 +467,12 @@
       "code": "161725",
       "name": "招商中证白酒指数",
       "tag": "白酒龙头",
-      "latest_nav": 0.5209,
-      "latest_date": "2026-10-22",
-      "return_1m": -1.62,
-      "return_3m": -3.0,
-      "return_6m": -19.3,
-      "return_1y": -31.85,
+      "latest_nav": 0.5345,
+      "latest_date": "2026-10-23",
+      "return_1m": 1.25,
+      "return_3m": -1.46,
+      "return_6m": -15.72,
+      "return_1y": -31.88,
       "nav_monthly": [
         {
           "month": "2025-10",
@@ -524,7 +524,7 @@
         },
         {
           "month": "2026-10",
-          "nav": 0.5209
+          "nav": 0.5345
         }
       ]
     },
@@ -532,12 +532,12 @@
       "code": "001632",
       "name": "天弘中证食品饮料A",
       "tag": "食品饮料宽基",
-      "latest_nav": 1.755,
-      "latest_date": "2026-10-22",
-      "return_1m": -1.12,
-      "return_3m": -2.21,
-      "return_6m": -12.67,
-      "return_1y": -19.43,
+      "latest_nav": 1.788,
+      "latest_date": "2026-10-23",
+      "return_1m": 0.76,
+      "return_3m": -0.79,
+      "return_6m": -9.92,
+      "return_1y": -19.0,
       "nav_monthly": [
         {
           "month": "2025-10",
@@ -589,7 +589,7 @@
         },
         {
           "month": "2026-10",
-          "nav": 1.755
+          "nav": 1.788
         }
       ]
     }
@@ -731,12 +731,12 @@
       "code": "008086",
       "name": "华夏5G通信ETF联接A",
       "tag": "5G主题",
-      "latest_nav": 2.2631,
-      "latest_date": "2026-10-22",
-      "return_1m": -22.02,
-      "return_3m": -33.69,
-      "return_6m": -7.34,
-      "return_1y": 14.22,
+      "latest_nav": 2.3198,
+      "latest_date": "2026-10-23",
+      "return_1m": -22.84,
+      "return_3m": -30.26,
+      "return_6m": -6.33,
+      "return_1y": 23.89,
       "nav_monthly": [
         {
           "month": "2025-10",
@@ -788,7 +788,7 @@
         },
         {
           "month": "2026-10",
-          "nav": 2.2631
+          "nav": 2.3198
         }
       ]
     }
@@ -799,11 +799,11 @@
       "name": "鹏华中证信息技术A",
       "tag": "信息技术",
       "latest_nav": 1.3639,
-      "latest_date": "2026-10-21",
-      "return_1m": -12.17,
-      "return_3m": -28.35,
-      "return_6m": 10.88,
-      "return_1y": -0.26,
+      "latest_date": "2026-10-23",
+      "return_1m": -15.35,
+      "return_3m": -22.83,
+      "return_6m": 4.11,
+      "return_1y": 4.41,
       "nav_monthly": [
         {
           "month": "2025-10",
@@ -863,12 +863,12 @@
       "code": "000942",
       "name": "广发信息技术联接A",
       "tag": "计算机",
-      "latest_nav": 1.5902,
-      "latest_date": "2026-10-22",
-      "return_1m": -15.53,
-      "return_3m": -28.24,
-      "return_6m": -1.57,
-      "return_1y": -4.68,
+      "latest_nav": 1.6375,
+      "latest_date": "2026-10-23",
+      "return_1m": -15.59,
+      "return_3m": -23.46,
+      "return_6m": 1.24,
+      "return_1y": 2.72,
       "nav_monthly": [
         {
           "month": "2025-10",
@@ -920,7 +920,7 @@
         },
         {
           "month": "2026-10",
-          "nav": 1.5902
+          "nav": 1.6375
         }
       ]
     }
@@ -930,12 +930,12 @@
       "code": "165520",
       "name": "中信保诚中证800有色A",
       "tag": "有色金属",
-      "latest_nav": 2.3225,
-      "latest_date": "2026-10-22",
-      "return_1m": -14.33,
-      "return_3m": -10.55,
-      "return_6m": -26.5,
-      "return_1y": -14.98,
+      "latest_nav": 2.3735,
+      "latest_date": "2026-10-23",
+      "return_1m": -13.67,
+      "return_3m": -7.99,
+      "return_6m": -24.33,
+      "return_1y": -9.87,
       "nav_monthly": [
         {
           "month": "2025-10",
@@ -987,7 +987,7 @@
         },
         {
           "month": "2026-10",
-          "nav": 2.3225
+          "nav": 2.3735
         }
       ]
     }
