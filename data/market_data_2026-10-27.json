@@ -1,0 +1,693 @@
+{
+  "meta": {
+    "date": "2026-10-27",
+    "generated_at": "2026-10-27T14:10:01.714537",
+    "version": "1.0.0"
+  },
+  "signal": {
+    "level": "normal",
+    "label": "正常定投",
+    "color": "blue",
+    "score": 55.8,
+    "coefficient": 1.0,
+    "dimensions": {
+      "valuation": {
+        "score": 50,
+        "weight": 0.3,
+        "detail": "沪深300 PE=13.22, 处于近10年51%分位"
+      },
+      "fundamentals": {
+        "score": 75,
+        "weight": 0.2,
+        "detail": "PMI=50.1, CPI=0.9%"
+      },
+      "trend": {
+        "score": 50,
+        "weight": 0.15,
+        "detail": "数据暂缺"
+      },
+      "sentiment": {
+        "score": 55,
+        "weight": 0.15,
+        "detail": "北向资金近20日净买入0亿, 两融余额13174亿"
+      },
+      "balance": {
+        "score": 50,
+        "weight": 0.2,
+        "detail": "使用默认值"
+      }
+    }
+  },
+  "sectors_realtime": [],
+  "sw_valuation": [
+    {
+      "name": "农林牧渔",
+      "code": "801010",
+      "constituent_count": 104,
+      "pe_static": 28.82,
+      "pe_ttm": 32.03,
+      "pb": 1.82,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "基础化工",
+      "code": "801030",
+      "constituent_count": 413,
+      "pe_static": 22.67,
+      "pe_ttm": 18.55,
+      "pb": 2.02,
+      "dividend_yield": 0.42
+    },
+    {
+      "name": "钢铁",
+      "code": "801040",
+      "constituent_count": 44,
+      "pe_static": 17.33,
+      "pe_ttm": 19.63,
+      "pb": 0.93,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "有色金属",
+      "code": "801050",
+      "constituent_count": 141,
+      "pe_static": 20.06,
+      "pe_ttm": 13.42,
+      "pb": 2.62,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "电子",
+      "code": "801080",
+      "constituent_count": 496,
+      "pe_static": 69.32,
+      "pe_ttm": 38.45,
+      "pb": 5.8,
+      "dividend_yield": 1.7
+    },
+    {
+      "name": "汽车",
+      "code": "801880",
+      "constituent_count": 291,
+      "pe_static": 19.42,
+      "pe_ttm": 21.25,
+      "pb": 1.9,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "家用电器",
+      "code": "801110",
+      "constituent_count": 93,
+      "pe_static": 14.15,
+      "pe_ttm": 14.98,
+      "pb": 2.23,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "食品饮料",
+      "code": "801120",
+      "constituent_count": 122,
+      "pe_static": 19.85,
+      "pe_ttm": 20.39,
+      "pb": 3.65,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "纺织服饰",
+      "code": "801130",
+      "constituent_count": 106,
+      "pe_static": 18.59,
+      "pe_ttm": 18.71,
+      "pb": 1.59,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "轻工制造",
+      "code": "801140",
+      "constituent_count": 156,
+      "pe_static": 18.98,
+      "pe_ttm": 19.73,
+      "pb": 1.86,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "医药生物",
+      "code": "801150",
+      "constituent_count": 480,
+      "pe_static": 28.1,
+      "pe_ttm": 25.95,
+      "pb": 2.55,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "公用事业",
+      "code": "801160",
+      "constituent_count": 137,
+      "pe_static": 18.27,
+      "pe_ttm": 20.22,
+      "pb": 1.68,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "交通运输",
+      "code": "801170",
+      "constituent_count": 126,
+      "pe_static": 14.83,
+      "pe_ttm": 14.3,
+      "pb": 1.21,
+      "dividend_yield": 2.38
+    },
+    {
+      "name": "房地产",
+      "code": "801180",
+      "constituent_count": 95,
+      "pe_static": 9.77,
+      "pe_ttm": 8.51,
+      "pb": 0.94,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "商贸零售",
+      "code": "801200",
+      "constituent_count": 99,
+      "pe_static": 23.26,
+      "pe_ttm": 20.9,
+      "pb": 1.72,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "社会服务",
+      "code": "801210",
+      "constituent_count": 82,
+      "pe_static": 27.02,
+      "pe_ttm": 27.51,
+      "pb": 2.15,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "银行",
+      "code": "801780",
+      "constituent_count": 42,
+      "pe_static": 7.86,
+      "pe_ttm": 7.74,
+      "pb": 0.73,
+      "dividend_yield": 5.0
+    },
+    {
+      "name": "非银金融",
+      "code": "801790",
+      "constituent_count": 79,
+      "pe_static": 9.43,
+      "pe_ttm": 7.31,
+      "pb": 1.12,
+      "dividend_yield": 0.83
+    },
+    {
+      "name": "综合",
+      "code": "801230",
+      "constituent_count": 20,
+      "pe_static": 68.75,
+      "pe_ttm": 57.81,
+      "pb": 3.06,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "建筑材料",
+      "code": "801710",
+      "constituent_count": 72,
+      "pe_static": 25.69,
+      "pe_ttm": 23.18,
+      "pb": 1.58,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "建筑装饰",
+      "code": "801720",
+      "constituent_count": 147,
+      "pe_static": 8.76,
+      "pe_ttm": 10.07,
+      "pb": 0.59,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "电力设备",
+      "code": "801730",
+      "constituent_count": 379,
+      "pe_static": 23.96,
+      "pe_ttm": 20.72,
+      "pb": 2.38,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "机械设备",
+      "code": "801890",
+      "constituent_count": 543,
+      "pe_static": 33.05,
+      "pe_ttm": 31.44,
+      "pb": 2.78,
+      "dividend_yield": 0.71
+    },
+    {
+      "name": "国防军工",
+      "code": "801740",
+      "constituent_count": 137,
+      "pe_static": 55.48,
+      "pe_ttm": 46.63,
+      "pb": 3.18,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "计算机",
+      "code": "801750",
+      "constituent_count": 334,
+      "pe_static": 44.15,
+      "pe_ttm": 37.38,
+      "pb": 3.55,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "传媒",
+      "code": "801760",
+      "constituent_count": 130,
+      "pe_static": 24.2,
+      "pe_ttm": 23.26,
+      "pb": 1.95,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "通信",
+      "code": "801770",
+      "constituent_count": 123,
+      "pe_static": 25.35,
+      "pe_ttm": 25.09,
+      "pb": 2.39,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "煤炭",
+      "code": "801950",
+      "constituent_count": 33,
+      "pe_static": 18.64,
+      "pe_ttm": 16.84,
+      "pb": 1.83,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "石油石化",
+      "code": "801960",
+      "constituent_count": 47,
+      "pe_static": 16.3,
+      "pe_ttm": 13.73,
+      "pb": 1.44,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "环保",
+      "code": "801970",
+      "constituent_count": 130,
+      "pe_static": 18.31,
+      "pe_ttm": 16.82,
+      "pb": 1.28,
+      "dividend_yield": 0.0
+    },
+    {
+      "name": "美容护理",
+      "code": "801980",
+      "constituent_count": 28,
+      "pe_static": 27.08,
+      "pe_ttm": 26.17,
+      "pb": 2.32,
+      "dividend_yield": 0.0
+    }
+  ],
+  "index_valuation": {
+    "沪深300": {
+      "pe": 13.22,
+      "pe_percentile": 50.58,
+      "pb": 1.35,
+      "pb_percentile": 18.53,
+      "pe_median": 20.2,
+      "date": "2026-10-27"
+    },
+    "中证500": {
+      "pe": 26.32,
+      "pe_percentile": 49.58,
+      "pb": 2.03,
+      "pb_percentile": 32.35,
+      "pe_median": 26.68,
+      "date": "2026-10-27"
+    }
+  },
+  "sector_advice": [
+    {
+      "name": "沪深300",
+      "code": "000300",
+      "type": "index",
+      "pe_ttm": null,
+      "pb": null,
+      "dividend_yield": null,
+      "rating": "unknown",
+      "recommendation": "数据不足"
+    },
+    {
+      "name": "中证500",
+      "code": "000905",
+      "type": "index",
+      "pe_ttm": null,
+      "pb": null,
+      "dividend_yield": null,
+      "rating": "unknown",
+      "recommendation": "数据不足"
+    },
+    {
+      "name": "电子",
+      "code": "801080",
+      "type": "sw_l1",
+      "pe_ttm": 38.45,
+      "pb": 5.8,
+      "dividend_yield": 1.7,
+      "rating": "slightly_high",
+      "recommendation": "正常定投"
+    },
+    {
+      "name": "医药生物",
+      "code": "801150",
+      "type": "sw_l1",
+      "pe_ttm": 25.95,
+      "pb": 2.55,
+      "dividend_yield": 0.0,
+      "rating": "slightly_high",
+      "recommendation": "正常定投"
+    },
+    {
+      "name": "电力设备",
+      "code": "801730",
+      "type": "sw_l1",
+      "pe_ttm": 20.72,
+      "pb": 2.38,
+      "dividend_yield": 0.0,
+      "rating": "fair",
+      "recommendation": "正常定投"
+    },
+    {
+      "name": "食品饮料",
+      "code": "801120",
+      "type": "sw_l1",
+      "pe_ttm": 20.39,
+      "pb": 3.65,
+      "dividend_yield": 0.0,
+      "rating": "fair",
+      "recommendation": "正常定投"
+    },
+    {
+      "name": "银行",
+      "code": "801780",
+      "type": "sw_l1",
+      "pe_ttm": 7.74,
+      "pb": 0.73,
+      "dividend_yield": 5.0,
+      "rating": "undervalued",
+      "recommendation": "建议加码"
+    },
+    {
+      "name": "通信",
+      "code": "801770",
+      "type": "sw_l1",
+      "pe_ttm": 25.09,
+      "pb": 2.39,
+      "dividend_yield": 0.0,
+      "rating": "slightly_high",
+      "recommendation": "正常定投"
+    },
+    {
+      "name": "计算机",
+      "code": "801750",
+      "type": "sw_l1",
+      "pe_ttm": 37.38,
+      "pb": 3.55,
+      "dividend_yield": 0.0,
+      "rating": "slightly_high",
+      "recommendation": "正常定投"
+    },
+    {
+      "name": "有色金属",
+      "code": "801050",
+      "type": "sw_l1",
+      "pe_ttm": 13.42,
+      "pb": 2.62,
+      "dividend_yield": 0.0,
+      "rating": "undervalued",
+      "recommendation": "建议加码"
+    }
+  ],
+  "northbound_flow": {
+    "daily": [
+      {
+        "date": "2026-10-27",
+        "net_buy_amount_yi": 0.0
+      },
+      {
+        "date": "2026-10-27",
+        "net_buy_amount_yi": 0.0
+      },
+      {
+        "date": "2026-10-27",
+        "net_buy_amount_yi": -0.0
+      },
+      {
+        "date": "2026-10-27",
+        "net_buy_amount_yi": -0.0
+      },
+      {
+        "date": "2026-10-27",
+        "net_buy_amount_yi": -0.0
+      },
+      {
+        "date": "2026-10-27",
+        "net_buy_amount_yi": 0.0
+      },
+      {
+        "date": "2026-10-26",
+        "net_buy_amount_yi": 0.0
+      },
+      {
+        "date": "2026-10-26",
+        "net_buy_amount_yi": 0.0
+      },
+      {
+        "date": "2026-10-26",
+        "net_buy_amount_yi": 0.0
+      },
+      {
+        "date": "2026-10-26",
+        "net_buy_amount_yi": -0.0
+      },
+      {
+        "date": "2026-10-26",
+        "net_buy_amount_yi": -0.0
+      },
+      {
+        "date": "2026-10-26",
+        "net_buy_amount_yi": -0.0
+      },
+      {
+        "date": "2026-10-23",
+        "net_buy_amount_yi": 0.0
+      },
+      {
+        "date": "2026-10-23",
+        "net_buy_amount_yi": 0.0
+      },
+      {
+        "date": "2026-10-23",
+        "net_buy_amount_yi": 0.0
+      },
+      {
+        "date": "2026-10-23",
+        "net_buy_amount_yi": -0.0
+      },
+      {
+        "date": "2026-10-23",
+        "net_buy_amount_yi": -0.0
+      },
+      {
+        "date": "2026-10-23",
+        "net_buy_amount_yi": 0.0
+      },
+      {
+        "date": "2026-10-22",
+        "net_buy_amount_yi": 0.0
+      },
+      {
+        "date": "2026-10-22",
+        "net_buy_amount_yi": 0.0
+      }
+    ],
+    "total_20d_yi": 0.0
+  },
+  "margin_trading": [
+    {
+      "date": "20261021",
+      "margin_balance_yi": 12573.21,
+      "short_balance_yi": 184.79,
+      "total_yi": 12758.01
+    },
+    {
+      "date": "20261020",
+      "margin_balance_yi": 12579.78,
+      "short_balance_yi": 186.51,
+      "total_yi": 12766.29
+    },
+    {
+      "date": "20261019",
+      "margin_balance_yi": 12590.48,
+      "short_balance_yi": 186.77,
+      "total_yi": 12777.25
+    },
+    {
+      "date": "20261016",
+      "margin_balance_yi": 12582.5,
+      "short_balance_yi": 186.71,
+      "total_yi": 12769.21
+    },
+    {
+      "date": "20261015",
+      "margin_balance_yi": 12654.87,
+      "short_balance_yi": 185.75,
+      "total_yi": 12840.61
+    },
+    {
+      "date": "20261014",
+      "margin_balance_yi": 12800.77,
+      "short_balance_yi": 189.28,
+      "total_yi": 12990.05
+    },
+    {
+      "date": "20261013",
+      "margin_balance_yi": 12860.65,
+      "short_balance_yi": 189.13,
+      "total_yi": 13049.77
+    },
+    {
+      "date": "20261012",
+      "margin_balance_yi": 12891.67,
+      "short_balance_yi": 190.38,
+      "total_yi": 13082.05
+    },
+    {
+      "date": "20261009",
+      "margin_balance_yi": 12914.37,
+      "short_balance_yi": 189.44,
+      "total_yi": 13103.81
+    },
+    {
+      "date": "20261008",
+      "margin_balance_yi": 12984.38,
+      "short_balance_yi": 189.37,
+      "total_yi": 13173.75
+    }
+  ],
+  "macro": {
+    "cpi": [
+      {
+        "date": "2026-09-01",
+        "yoy": 0.9
+      },
+      {
+        "date": "2026-08-01",
+        "yoy": 0.8
+      },
+      {
+        "date": "2026-07-01",
+        "yoy": 0.5
+      },
+      {
+        "date": "2026-06-01",
+        "yoy": 1.0
+      },
+      {
+        "date": "2026-05-01",
+        "yoy": 1.2
+      },
+      {
+        "date": "2026-04-01",
+        "yoy": 1.2
+      },
+      {
+        "date": "2026-03-01",
+        "yoy": 1.0
+      },
+      {
+        "date": "2026-02-01",
+        "yoy": 1.3
+      },
+      {
+        "date": "2026-01-01",
+        "yoy": 0.2
+      },
+      {
+        "date": "2025-12-01",
+        "yoy": 0.8
+      },
+      {
+        "date": "2025-11-01",
+        "yoy": 0.7
+      },
+      {
+        "date": "2025-10-01",
+        "yoy": 0.2
+      }
+    ],
+    "pmi": [
+      {
+        "date": "2026-09-01",
+        "manufacturing": 50.1
+      },
+      {
+        "date": "2026-08-01",
+        "manufacturing": 49.8
+      },
+      {
+        "date": "2026-07-01",
+        "manufacturing": 49.2
+      },
+      {
+        "date": "2026-06-01",
+        "manufacturing": 50.3
+      },
+      {
+        "date": "2026-05-01",
+        "manufacturing": 50.0
+      },
+      {
+        "date": "2026-04-01",
+        "manufacturing": 50.3
+      },
+      {
+        "date": "2026-03-01",
+        "manufacturing": 50.4
+      },
+      {
+        "date": "2026-02-01",
+        "manufacturing": 49.0
+      },
+      {
+        "date": "2026-01-01",
+        "manufacturing": 49.3
+      },
+      {
+        "date": "2025-12-01",
+        "manufacturing": 50.1
+      },
+      {
+        "date": "2025-11-01",
+        "manufacturing": 49.2
+      },
+      {
+        "date": "2025-10-01",
+        "manufacturing": 49.0
+      }
+    ]
+  },
+  "kline_hs300": null
+}
